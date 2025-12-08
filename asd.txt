@@ -1,0 +1,125 @@
+1. Best Time to Buy and Sell Stocks (with at most 2 transactions)
+
+(From Page 1)
+
+Problem Summary
+
+Given array A of stock prices, find the maximum profit using at most 2 transactions.
+
+✔ Python Solution
+n = int(input())
+A = list(map(int, input().split()))
+
+res = 0
+min1 = min2 = float('inf')
+max1 = max2 = 0
+
+for x in A:
+    min1 = min(min1, x)
+    max1 = max(max1, x - min1)
+    min2 = min(min2, x - max1)
+    max2 = max(max2, x - min2)
+
+print(max2)
+
+✅ 2. Intersecting Chords in a Circle
+
+(From Page 2)
+
+Problem Summary
+
+Given A, number of chord pairs. Compute number of ways modulo 
+10
+9
++
+7
+10
+9
++7.
+This is Catalan number.
+
+✔ Python Solution
+MOD = 10**9 + 7
+
+def catalan(n):
+    dp = [0] * (n + 1)
+    dp[0] = dp[1] = 1
+
+    for i in range(2, n + 1):
+        for j in range(i):
+            dp[i] = (dp[i] + dp[j] * dp[i - j - 1]) % MOD
+    return dp[n]
+
+A = int(input())
+print(catalan(A))
+
+✅ 3. Largest Sum Subarray (Kadane’s Algorithm)
+
+(From Page 3)
+
+Problem Summary
+
+Given array integers, return maximum subarray sum.
+
+✔ Python Solution
+import sys
+n = int(input())
+A = list(map(int, input().split()))
+
+cur = 0
+best = -10**18
+
+for x in A:
+    cur = max(x, cur + x)
+    best = max(best, cur)
+
+print(best)
+
+✅ 4. Maximize Profit (Knapsack fractional-like, but pick all or none)
+
+(From Page 4)
+
+Problem Summary
+
+Given weights and profits of items and capacity W,
+find max profit but each item can be taken at most once (0–1 Knapsack).
+
+✔ Python Solution
+import sys
+
+n = int(input())
+profits = list(map(int, input().split()))
+weights = list(map(int, input().split()))
+W = int(input())
+
+dp = [0] * (W + 1)
+
+for i in range(n):
+    for w in range(W, weights[i] - 1, -1):
+        dp[w] = max(dp[w], dp[w - weights[i]] + profits[i])
+
+print(dp[W])
+
+✅ 5. Largest Sum of Non-Adjacent Elements
+
+(From Page 5)
+
+Problem Summary
+
+Pick elements such that no two chosen elements are adjacent, maximize sum.
+
+✔ Python Solution
+import sys
+
+n = int(input())
+A = list(map(int, input().split()))
+
+incl = 0
+excl = 0
+
+for x in A:
+    new_excl = max(incl, excl)
+    incl = excl + x
+    excl = new_excl
+
+print(max(incl, excl))
